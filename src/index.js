@@ -1,3 +1,4 @@
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const BASE_URL = "https://pixabay.com/api/";
 const API_KEY = "38852093-4351b0a7d2f3586ea84705b87";
@@ -21,12 +22,13 @@ refs.btn.addEventListener("click", onLoadMore);
 let form = '';
 let page = 1;
 function onSearchForm(e) {
-    e.preventDefault();
-    refs.gallery.innerHTML = '';
-    form = e.currentTarget.elements.searchQuery.value;
-    page = 1;
-    console.log(form)
-    refs.btn.hidden = false;
+  e.preventDefault();
+  
+  refs.gallery.innerHTML = '';
+  form = e.currentTarget.elements.searchQuery.value;
+  page = 1;
+
+
     return fetch(`${BASE_URL}?key=${API_KEY}&q=${form}&image_type=${IMAGE_TYPE}&orientation=${ORIENTATION_OF_PHOTO}&safesearch=${SAFESEARCH}&per_page=${PER_PAGE}&page=${page}`)
         .then((resp) => {
         if (!resp.ok) {
@@ -35,7 +37,13 @@ function onSearchForm(e) {
             
       return resp.json();
         }).then(data => {
-          createMarkup(data.hits)
+          if (data.hits.length === Number(0)) {
+           return Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+          } else {
+            createMarkup(data.hits);
+              console.log(data)
+          }
+        
     }).catch(error => {
        console.log(error)
     });
@@ -44,7 +52,7 @@ function onSearchForm(e) {
 
 function onLoadMore() {
     page += 1;
-    return fetch(`${BASE_URL}?key=${API_KEY}&q=${form}&image_type=${IMAGE_TYPE}&orientation=${ORIENTATION_OF_PHOTO}&safesearch=${SAFESEARCH}&per_page=${PER_PAGE}page=${page}`)
+    return fetch(`${BASE_URL}?key=${API_KEY}&q=${form}&image_type=${IMAGE_TYPE}&orientation=${ORIENTATION_OF_PHOTO}&safesearch=${SAFESEARCH}&per_page=${PER_PAGE}&page=${page}`)
         .then((resp) => {
         if (!resp.ok) {
             throw new Error (resp.statusText)
@@ -52,7 +60,10 @@ function onLoadMore() {
       return resp.json();
     }).then(data => {
         createMarkup(data.hits)
-        console.log(data);
+      if (data.totalHits > 500) {
+        refs.btn.hidden = true;
+        Notify.info("We're sorry, but you've reached the end of search results.")
+        }
     }).catch(error => {
        console.log(error)
      });
@@ -81,19 +92,19 @@ function onLoadMore() {
 function createMarkup(array) {
    const card = array.map(({ webformatURL, tags, likes, views, comments, downloads, }) => 
     `<div class="photo-card">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+  <img src="${webformatURL}" alt="${tags}" loading="lazy"   />
   <div class="info">
     <p class="info-item">
-      <b>Likes ${likes}</b>
+      <b>Likes</b>${likes}
     </p>
     <p class="info-item">
-      <b>Views ${views}</b>
+      <b>Views</b>${views}
     </p>
     <p class="info-item">
-      <b>Сomments ${comments}</b>
+      <b>Сomments</b>${comments}
     </p>
     <p class="info-item">
-      <b>Downloads ${downloads}</b>
+      <b>Downloads</b>${downloads}
     </p>
   </div>
 </div>`
