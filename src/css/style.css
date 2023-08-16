@@ -58,3 +58,6 @@ body {
   background-color: #4d5ae5;
   color: white;
 }
+.is-hidden-btn {
+  display: none;
+}

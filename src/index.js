@@ -21,6 +21,17 @@ refs.btn.addEventListener("click", onLoadMore);
 
 let form = '';
 let page = 1;
+
+function fetchByBreed() {
+  return fetch(`${BASE_URL}?key=${API_KEY}&q=${form}&image_type=${IMAGE_TYPE}&orientation=${ORIENTATION_OF_PHOTO}&safesearch=${SAFESEARCH}&per_page=${PER_PAGE}&page=${page}`)
+   .then((resp) => {
+  if (!resp.ok) {
+ throw new Error (resp.statusText)
+ }
+return resp.json();
+})
+}
+
 function onSearchForm(e) {
   e.preventDefault();
   
@@ -28,22 +39,17 @@ function onSearchForm(e) {
   form = e.currentTarget.elements.searchQuery.value;
   page = 1;
 
-
-    return fetch(`${BASE_URL}?key=${API_KEY}&q=${form}&image_type=${IMAGE_TYPE}&orientation=${ORIENTATION_OF_PHOTO}&safesearch=${SAFESEARCH}&per_page=${PER_PAGE}&page=${page}`)
-        .then((resp) => {
-        if (!resp.ok) {
-            throw new Error (resp.statusText)
-            }
-            
-      return resp.json();
-        }).then(data => {
-          if (data.hits.length === Number(0)) {
-           return Notify.failure("Sorry, there are no images matching your search query. Please try again.");
-          } else {
-            createMarkup(data.hits);
-              console.log(data)
-          }
-        
+    fetchByBreed().then(data => {
+    if (data.hits.length === Number(0)) {
+    return Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+  } else {
+    createMarkup(data.hits);
+      console.log(data.hits.page)
+      if (data.totalHits > 1) {
+        refs.btn.classList.remove('is-hidden-btn');
+      }
+   
+ }
     }).catch(error => {
        console.log(error)
     });
@@ -52,16 +58,10 @@ function onSearchForm(e) {
 
 function onLoadMore() {
     page += 1;
-    return fetch(`${BASE_URL}?key=${API_KEY}&q=${form}&image_type=${IMAGE_TYPE}&orientation=${ORIENTATION_OF_PHOTO}&safesearch=${SAFESEARCH}&per_page=${PER_PAGE}&page=${page}`)
-        .then((resp) => {
-        if (!resp.ok) {
-            throw new Error (resp.statusText)
-        }
-      return resp.json();
-    }).then(data => {
+    fetchByBreed(page).then(data => {
         createMarkup(data.hits)
       if (data.totalHits > 500) {
-        refs.btn.hidden = true;
+          refs.btn.classList.add('is-hidden-btn');
         Notify.info("We're sorry, but you've reached the end of search results.")
         }
     }).catch(error => {
