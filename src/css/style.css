@@ -13,7 +13,7 @@ body {
   gap: 24px;
 }
 .input {
-  border: 1px solid rgb(160, 183, 228);
+  border: 1px solid #4d5ae5;
   border-radius: 8px;
   padding: 8px;
   height: 24px;
@@ -24,7 +24,7 @@ body {
   min-width: 80px;
 
   border-radius: 8px;
-  background-color: cornflowerblue;
+  background-color: #4d5ae5;
   color: white;
 }
 .gallery {
@@ -43,8 +43,7 @@ body {
   overflow: hidden;
   border: 1px solid #e7e9fc;
   /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
-  box-shadow: 0px 1px 6px rgba(46, 47, 66, 0.08),
-    0px 1px 1px rgba(46, 47, 66, 0.16), 0px 2px 1px rgba(46, 47, 66, 0.08);
+  box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.5);
 }
 .photo-card img {
   display: block;
