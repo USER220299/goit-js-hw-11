@@ -4,7 +4,7 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 let lightbox = new SimpleLightbox('.photo-card a',  {
-    captionsData: 'alt',
+  
       captionDelay: 250,
       close:false,
     });
@@ -70,8 +70,6 @@ if (form === '') {
      createMarkup(data.hits);
      Notify.success(`Hooray! We found ${data.totalHits} images.`)
      observer.observe(guard);
-
-
      return lightbox.refresh();
  }
   } catch (err) {
@@ -88,8 +86,9 @@ function callback(entries) {
        const data = await searchByBreed(page)
         createMarkup(data.hits)
         sumHits += (data.hits.length)
-       console.log(sumHits)
-      if (data.totalHits===sumHits) {
+        const totalHits = data.totalHits-sumHits
+   
+      if (totalHits===20) {
         observer.unobserve(guard);
          Notify.info("We're sorry, but you've reached the end of search results.")
         }
