@@ -22,17 +22,10 @@ let sumHits = 0;
 
 refs = {
   searchForm: document.querySelector('.search-form'),
-  input:document.querySelector('.input'),
   submitBtn:document.querySelector('search'),
   gallery: document.querySelector(".gallery"),
   btn : document.querySelector(".load-more"),
 }
-console.log(refs.gallery);
-console.log(refs.btn)
-console.log(refs.searchForm)
-console.log(refs.submitBtn)
-console.log(refs.input)
-
 const options = {
   root: null,
   rootMargin: "300px",
@@ -45,7 +38,7 @@ const guard = document.querySelector('.js-guard');
 async function searchByBreed() {
   const resp = await axios.get(`${BASE_URL}?key=${API_KEY}&q=${form}&image_type=${IMAGE_TYPE}&orientation=${ORIENTATION_OF_PHOTO}&safesearch=${SAFESEARCH}&per_page=${PER_PAGE}&page=${page}`).then(resp=>resp.data)
 
- return await resp
+  return await resp;
 
 }
 
@@ -59,7 +52,7 @@ async function onSearchForm(e) {
   page = 1;
 if (form === '') {
     return
-  }
+} 
 
   try {
     const data = await searchByBreed()
@@ -88,7 +81,7 @@ function callback(entries) {
         sumHits += (data.hits.length)
         const totalHits = data.totalHits-sumHits
    
-      if (totalHits===20) {
+      if (totalHits< PER_PAGE) {
         observer.unobserve(guard);
          Notify.info("We're sorry, but you've reached the end of search results.")
         }
