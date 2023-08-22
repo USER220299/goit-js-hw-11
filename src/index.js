@@ -20,7 +20,7 @@ let form = '';
 let page = 1;
 let sumHits = 0;
 
-refs = {
+const refs = {
   searchForm: document.querySelector('.search-form'),
   submitBtn:document.querySelector('search'),
   gallery: document.querySelector(".gallery"),
@@ -51,9 +51,9 @@ async function onSearchForm(e) {
   form = e.currentTarget.elements.searchQuery.value.trim();
   page = 1;
 if (form === '') {
-    return
-} 
-
+  return
+  } 
+   
   try {
     const data = await searchByBreed()
 
@@ -63,7 +63,9 @@ if (form === '') {
      createMarkup(data.hits);
      Notify.success(`Hooray! We found ${data.totalHits} images.`)
      observer.observe(guard);
-     return lightbox.refresh();
+     lightbox.refresh();
+     return  
+  
  }
   } catch (err) {
     console.log(err)
@@ -93,48 +95,6 @@ function callback(entries) {
 }
 
 
-// refs.btn.addEventListener("click", onLoadMore);
-// function onLoadMore() {
- 
-//   page += 1;
-//    refs.btn.classList.add('is-hidden-btn');
-//     fetchByBreed(page).then(data => {
-//       createMarkup(data.hits)
-
-//       refs.btn.classList.remove('is-hidden-btn');
-      
-//       if (data.hits.pageURL===500) {
-//         refs.btn.classList.add('is-hidden-btn');
-//         return Notify.info("We're sorry, but you've reached the end of search results.")
-//         }
-//     }).catch(error => {
-//        console.log(error)
-//      });
-// }
-
-
-
-
-
-// function serviseCharacter() {
-//     return fetch(`${BASE_URL}?key=${API_KEY}&q=cat&image_type=${IMAGE_TYPE}&orientation=${ORIENTATION_OF_PHOTO}&safesearch=${SAFESEARCH}`)
-//         .then((resp) => {
-//         if (!resp.ok) {
-//             throw new Error (resp.statusText)
-//         }
-//       return resp.json();
-//     })
-// }
-
-
-
-// onSearchForm().then((data) => {
-//     console.log(data)
-//     refs.gallery.innerHTML = createMarkup(data.hits);
-// })
-
-
-
 
 function createMarkup(array) {
    const card = array.map(({ webformatURL, tags, likes, views, comments, downloads, largeImageURL}) => 
@@ -162,3 +122,25 @@ function createMarkup(array) {
     refs.gallery.insertAdjacentHTML('beforeend', card);
     
 }
+
+
+
+
+// refs.btn.addEventListener("click", onLoadMore);
+// function onLoadMore() {
+ 
+//   page += 1;
+//    refs.btn.classList.add('is-hidden-btn');
+//     fetchByBreed(page).then(data => {
+//       createMarkup(data.hits)
+
+//       refs.btn.classList.remove('is-hidden-btn');
+      
+//       if (data.hits.pageURL===500) {
+//         refs.btn.classList.add('is-hidden-btn');
+//         return Notify.info("We're sorry, but you've reached the end of search results.")
+//         }
+//     }).catch(error => {
+//        console.log(error)
+//      });
+// }

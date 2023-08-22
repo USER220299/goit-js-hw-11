@@ -27,6 +27,15 @@ body {
   background-color: #4d5ae5;
   color: white;
 }
+
+.search:hover {
+  background-color: #404bbf;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 4px;
+}
+.btn-pasian:disabled {
+  opacity: 0.5;
+}
+
 .gallery {
   display: flex;
   flex-wrap: wrap;
@@ -41,8 +50,6 @@ body {
   width: 350px;
   height: auto;
   overflow: hidden;
-
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
   box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.5);
 }
 .photo-card img {
@@ -79,12 +86,4 @@ body {
   border: none;
   background-color: #4d5ae5;
   color: white;
-}
-.is-hidden-btn {
-  display: none;
-}
-.is-hidden-btn:hover,
-.is-hidden-btn:focus {
-  background-color: #404bbf;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 4px;
 }
