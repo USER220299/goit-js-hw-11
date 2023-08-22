@@ -63,9 +63,7 @@ if (form === '') {
      createMarkup(data.hits);
      Notify.success(`Hooray! We found ${data.totalHits} images.`)
      observer.observe(guard);
-     lightbox.refresh();
-     return  
-  
+     return  lightbox.refresh();
  }
   } catch (err) {
     console.log(err)
@@ -93,8 +91,6 @@ function callback(entries) {
    }
   });
 }
-
-
 
 function createMarkup(array) {
    const card = array.map(({ webformatURL, tags, likes, views, comments, downloads, largeImageURL}) => 
